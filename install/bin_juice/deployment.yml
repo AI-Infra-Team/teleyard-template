@@ -1,0 +1,18 @@
+deploytype: bin
+
+prepare:
+  # x86
+  - url: https://github.com/ActivePeter/bin_repo_0/releases/download/juicefs_1.2.0/juicefs_1.2.0_x86
+    as: juicefs_amd64
+
+  # arm
+  - url: https://github.com/ActivePeter/bin_repo_0/releases/download/juicefs_1.2.0/juicefs_1.2.0_arm
+    as: juicefs_arm64
+
+  - url: https://github.com/juicedata/juicefs/releases/download/v1.2.1/juicefs-1.2.1-windows-amd64.tar.gz
+    as: juicefs_windows.tar.gz
+    trans: tar -zxf juicefs_windows.tar.gz
+
+bin:
+  juicefs:
+  juicefs_win:

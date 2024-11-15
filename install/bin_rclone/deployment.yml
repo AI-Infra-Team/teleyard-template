@@ -1,0 +1,31 @@
+deploytype: bin
+
+local_values:
+  install_browser:
+    read_from_file: template/install_browser.py
+  MAIN_NODE_IP: 10.127.20.218
+
+prepare:
+  # x86
+  - url: https://github.com/rclone/rclone/releases/download/v1.68.0/rclone-v1.68.0-linux-amd64.zip
+    as: rclone-v1.68.0-linux-amd64.zip
+    trans: "unzip -o rclone-v1.68.0-linux-amd64.zip && cp rclone-v1.68.0-linux-amd64/rclone rclone_amd64 && rm -rf rclone-v1.68.0-linux-amd64"
+  # arm
+  - url: https://github.com/rclone/rclone/releases/download/v1.68.0/rclone-v1.68.0-linux-arm64.zip
+    as: rclone-v1.68.0-linux-arm64.zip
+    trans: "unzip -o rclone-v1.68.0-linux-arm64.zip && cp rclone-v1.68.0-linux-arm64/rclone rclone_arm64 && rm -rf rclone-v1.68.0-linux-arm64"
+  - url: https://github.com/rclone/rclone/releases/download/v1.68.0/rclone-v1.68.0-windows-amd64.zip
+    trans: "unzip -o rclone-v1.68.0-windows-amd64.zip && mv rclone-v1.68.0-windows-amd64/rclone.exe ./ && rm -rf rclone-v1.68.0-windows-amd64"
+
+  - url: https://github.com/kapitainsky/RcloneBrowser/releases/download/1.8.0/rclone-browser-1.8.0-a0b66c6-linux-x86_64.AppImage
+    as: rclone-browser.AppImage
+
+  - url: https://github.com/kapitainsky/RcloneBrowser/releases/download/1.8.0/rclone-browser-1.8.0-a0b66c6-windows-64-bit.exe
+    as: rclone-browser.exe
+
+  - filemap:
+      content: ${install_browser}
+      path: install_browser.py
+      mode: 755
+bin:
+  rclone:

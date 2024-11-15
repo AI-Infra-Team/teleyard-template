@@ -1,0 +1,49 @@
+# user-global-readonly-role
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: global-readonly-role
+rules:
+- apiGroups: ["*"]  # 通配符，表示所有 API 组
+  resources: ["*"]  # 通配符，表示所有资源类型
+  verbs: ["get", "list", "describe"]
+---
+# user-global-readonly-rolebinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: uagi-global-readonly-binding
+subjects:
+- kind: User
+  name: uagi
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: global-readonly-role
+  apiGroup: rbac.authorization.k8s.io
+---
+# user-modify-role
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: uagi
+  name: uagi-modify-role
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]  # 根据需要添加其他资源
+  verbs: ["*"]
+---
+# user-modify-rolebinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  namespace: uagi
+  name: uagi-modify-binding
+subjects:
+- kind: User
+  name: uagi
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: uagi-modify-role
+  apiGroup: rbac.authorization.k8s.io

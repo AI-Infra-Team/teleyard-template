@@ -1,0 +1,227 @@
+deploytype: bin
+
+local_values:
+  main_node_ip: "10.127.20.218"
+
+prepare:
+  - url: https://github.com/ActivePeter/bin_repo_0/releases/download/kubectl1.27/yum.zip
+
+  - url: http://launchpadlibrarian.net/365645407/libpython2.7-minimal_2.7.15~rc1-1_amd64.deb
+    as: libpython2.7-minimal_amd64.deb
+
+  - url: http://launchpadlibrarian.net/365645427/python2.7-minimal_2.7.15~rc1-1_amd64.deb
+    as: python2.7-minimal_amd64.deb
+
+  - url: http://launchpadlibrarian.net/365666903/python2.7-minimal_2.7.15~rc1-1_arm64.deb
+    as: python2.7-minimal_arm64.deb
+
+  - url: http://launchpadlibrarian.net/365645428/python2.7_2.7.15~rc1-1_amd64.deb
+    as: python2.7_amd64.deb
+
+  - url: http://launchpadlibrarian.net/365666904/python2.7_2.7.15~rc1-1_arm64.deb
+    as: python2.7_arm64.deb
+
+  - url: http://launchpadlibrarian.net/365645408/libpython2.7-stdlib_2.7.15~rc1-1_amd64.deb
+    as: libpython2.7-stdlib_amd64.deb
+
+  - url: http://launchpadlibrarian.net/365666899/libpython2.7-stdlib_2.7.15~rc1-1_arm64.deb
+    as: libpython2.7-stdlib_arm64.deb
+
+  - url: https://launchpad.net/ubuntu/bionic/arm64/libpython2.7-minimal/2.7.15~rc1-1
+    as: libpython2.7-minimal_arm64.deb
+
+  - url: http://launchpadlibrarian.net/361056050/rpm2cpio_4.14.1+dfsg1-2_amd64.deb
+    as: rpm2cpio_amd64.deb
+
+  - url: http://launchpadlibrarian.net/361056049/rpm-common_4.14.1+dfsg1-2_amd64.deb
+    as: rpm-common_amd64.deb
+
+  - url: http://launchpadlibrarian.net/361056051/rpm_4.14.1+dfsg1-2_amd64.deb
+    as: rpm_amd64.deb
+
+  - url: http://launchpadlibrarian.net/361056141/rpm_4.14.1+dfsg1-2_arm64.deb
+    as: rpm_arm64.deb
+
+  - url: http://launchpadlibrarian.net/365815258/perl-base_5.26.1-6_amd64.deb
+    as: perl-base_amd64.deb
+
+  - url: http://launchpadlibrarian.net/365818377/perl-base_5.26.1-6_arm64.deb
+    as: perl-base_arm64.deb
+
+  - url: http://launchpadlibrarian.net/365815262/perl-modules-5.26_5.26.1-6_all.deb
+    as: perl-modules_all.deb
+    trans: "cp perl-modules_all.deb perl-modules_amd64.deb && cp perl-modules_all.deb perl-modules_arm64.deb"
+
+  - url: http://launchpadlibrarian.net/365815256/libperl5.26_5.26.1-6_amd64.deb
+    as: libperl5_26_amd64.deb
+
+  - url: http://launchpadlibrarian.net/365818376/libperl5.26_5.26.1-6_arm64.deb
+    as: libperl5_26_arm64.deb
+
+  - url: http://security.ubuntu.com/ubuntu/pool/main/p/perl/perl_5.26.1-6_amd64.deb
+    as: perl_amd64.deb
+
+  - url: http://launchpadlibrarian.net/361056046/librpmsign8_4.14.1+dfsg1-2_amd64.deb
+    as: librpmsign8_amd64.deb
+
+  - url: http://launchpadlibrarian.net/361056045/librpmio8_4.14.1+dfsg1-2_amd64.deb
+    as: librpmio8_amd64.deb
+
+  - url: http://launchpadlibrarian.net/361056044/librpmbuild8_4.14.1+dfsg1-2_amd64.deb
+    as: librpmbuild8_amd64.deb
+
+  - url: http://launchpadlibrarian.net/361056043/librpm8_4.14.1+dfsg1-2_amd64.deb
+    as: librpm8_amd64.deb
+
+  - url: http://launchpadlibrarian.net/362374686/libpopt0_1.16-11_amd64.deb
+    as: libpopt0_amd64.deb
+
+  - url: http://launchpadlibrarian.net/427258286/libelf1_0.170-0.4ubuntu0.1_amd64.deb
+    as: libelf1_amd64.deb
+
+  - url: http://launchpadlibrarian.net/273164193/mime-support_3.60ubuntu1_all.deb
+    as: mime-support_all.deb
+    trans: "cp mime-support_all.deb mime-support_arm64.deb && cp mime-support_all.deb mime-support_amd64.deb"
+
+  - url: http://launchpadlibrarian.net/361056042/debugedit_4.14.1+dfsg1-2_amd64.deb
+    as: debugedit_amd64.deb
+
+  - url: http://launchpadlibrarian.net/367327834/openssl_1.1.0g-2ubuntu4_amd64.deb
+    as: openssl_amd64.deb
+
+  - url: http://launchpadlibrarian.net/367327971/openssl_1.1.0g-2ubuntu4_arm64.deb
+    as: openssl_arm64.deb
+
+  - url: http://launchpadlibrarian.net/367327833/libssl1.1_1.1.0g-2ubuntu4_amd64.deb
+    as: libssl1_1_amd64.deb
+
+  - url: http://launchpadlibrarian.net/367327970/libssl1.1_1.1.0g-2ubuntu4_arm64.deb
+    as: libssl1_1_arm64.deb
+
+  - url: http://launchpadlibrarian.net/355827340/libnss3_3.35-2ubuntu2_amd64.deb
+    as: libnss3_amd64.deb
+
+  - url: http://launchpadlibrarian.net/355827802/libnss3_3.35-2ubuntu2_arm64.deb
+    as: libnss3_arm64.deb
+
+  - url: http://launchpadlibrarian.net/284868115/liblua5.2-0_5.2.4-1.1build1_amd64.deb
+    as: liblua5_2_amd64.deb
+
+  - url: http://launchpadlibrarian.net/284871583/liblua5.2-0_5.2.4-1.1build1_arm64.deb
+    as: liblua5_2_arm64.deb
+
+  - url: http://launchpadlibrarian.net/360721641/libgdbm5_1.14.1-6_amd64.deb
+    as: libgdbm5_amd64.deb
+
+  - url: http://launchpadlibrarian.net/360721712/libgdbm5_1.14.1-6_arm64.deb
+    as: libgdbm5_arm64.deb
+
+  - url: http://launchpadlibrarian.net/358050316/libnspr4_4.18-1ubuntu1_amd64.deb
+    as: libnspr4_amd64.deb
+
+  - url: http://launchpadlibrarian.net/358050764/libnspr4_4.18-1ubuntu1_arm64.deb
+    as: libnspr4_arm64.deb
+
+  - url: http://launchpadlibrarian.net/361056047/python-rpm_4.14.1+dfsg1-2_amd64.deb
+    as: python-rpm_amd64.deb
+
+  - url: http://launchpadlibrarian.net/361056137/python-rpm_4.14.1+dfsg1-2_arm64.deb
+    as: python-rpm_arm64.deb
+
+  - url: http://launchpadlibrarian.net/344986560/python-urlgrabber_3.10.2-1_all.deb
+    as: python-urlgrabber_all.deb
+
+  - url: http://launchpadlibrarian.net/355489183/python-pycurl_7.43.0.1-0.2_amd64.deb
+    as: python-pycurl_amd64.deb
+
+  - url: http://launchpadlibrarian.net/355491506/python-pycurl_7.43.0.1-0.2_arm64.deb
+    as: python-pycurl_arm64.deb
+
+  - url: http://launchpadlibrarian.net/141599028/python-sqlitecachec_1.1.4-1_amd64.deb
+    as: python-sqlitecachec_amd64.deb
+
+  - url: http://launchpadlibrarian.net/154974190/python-sqlitecachec_1.1.4-1_arm64.deb
+    as: python-sqlitecachec_arm64.deb
+  # zlib
+  # - url: http://launchpadlibrarian.net/193821327/yum_3.4.3-3_all.deb
+  #   as: yum_amd64.deb
+
+  # - url: http://launchpadlibrarian.net/193821327/yum_3.4.3-3_all.deb
+  #   as: yum_arm64.deb
+
+  - filemap:
+      path: install.py
+      content: |
+        import os
+        import sys
+        import urllib.request
+
+        try:
+            os.mkdir("/tmp/install_yum")
+        except:
+            pass
+        os.chdir("/tmp/install_yum")
+        urllib.request.urlretrieve("http://${main_node_ip}:8003/bin_yum/yum.zip", "/tmp/install_yum/yum.zip")
+        ARCH=""
+        if os.uname().machine == "aarch64":
+            ARCH="arm64"
+        if os.uname().machine == "x86_64":
+            ARCH="amd64"
+        if os.uname().machine == "arm64":
+            ARCH="arm64"
+
+        files=[
+            f"libssl1_1_{ARCH}.deb",
+            f"openssl_{ARCH}.deb",
+            f"libpython2.7-minimal_{ARCH}.deb",
+            f"python2.7-minimal_{ARCH}.deb",
+            f"mime-support_{ARCH}.deb",
+            f"libpython2.7-stdlib_{ARCH}.deb",
+            f"python2.7_{ARCH}.deb",
+            f"libpopt0_{ARCH}.deb",
+            f"libelf1_{ARCH}.deb",
+            f"libgdbm5_{ARCH}.deb",
+            f"perl-modules_{ARCH}.deb",
+            f"libperl5_26_{ARCH}.deb",
+            f"perl-base_{ARCH}.deb",
+            f"perl_{ARCH}.deb",
+            f"libnspr4_{ARCH}.deb",
+            f"libnss3_{ARCH}.deb",
+            f"liblua5_2_{ARCH}.deb",
+            f"librpmio8_{ARCH}.deb",
+            f"librpm8_{ARCH}.deb",
+            f"librpmbuild8_{ARCH}.deb",
+            f"debugedit_{ARCH}.deb",
+            f"librpmsign8_{ARCH}.deb",
+            f"rpm2cpio_{ARCH}.deb",
+            f"rpm-common_{ARCH}.deb",
+            f"rpm_{ARCH}.deb",
+            f"python-rpm_{ARCH}.deb",
+            f"python-urlgrabber_all.deb",
+            f"python-pycurl_{ARCH}.deb",
+            f"python-sqlitecachec_{ARCH}.deb"
+        ]
+
+        for f in files:
+            print(f"downloading {f}")
+            urllib.request.urlretrieve(f"http://${main_node_ip}:8003/bin_yum/{f}", f"/tmp/install_yum/{f}")
+            os.system(f"dpkg -i {f}")
+
+
+
+        os.system("unzip -o yum.zip")
+        os.system("chmod -R 755 ./")
+        os.system("cp -r etc /")
+        os.system("cp -r usr /")
+        os.system("cp -r var /")
+        if not os.path.exists("/usr/bin/python"):
+            os.system("ln -s /usr/bin/python2.7 /usr/bin/python")
+        script = urllib.request.urlopen("http://10.127.20.218:8003/bin_easy_config/set_rpm_source.py").read()
+        exec(script)
+      mode: 755
+
+bin:
+  yum:
+    no_default_installer:
+    # apt:
+    #   yum:

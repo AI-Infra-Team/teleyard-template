@@ -1,0 +1,12 @@
+deploytype: bin
+
+prepare:
+  # x86
+  - url: https://github.com/derailed/k9s/releases/download/v0.32.5/k9s_Linux_amd64.tar.gz
+    trans: "tar -zxvf k9s_Linux_amd64.tar.gz && mv k9s k9s_amd64"
+    # trans: "unzip -o rclone-v1.68.0-linux-amd64.zip && cp rclone-v1.68.0-linux-amd64/rclone rclone_amd64"
+  # arm
+  - url: https://github.com/derailed/k9s/releases/download/v0.32.5/k9s_Linux_arm64.tar.gz
+    trans: "tar -zxvf k9s_Linux_arm64.tar.gz && mv k9s k9s_arm64"
+bin:
+  k9s:

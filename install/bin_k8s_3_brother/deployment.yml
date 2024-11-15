@@ -1,0 +1,56 @@
+deploytype: bin
+
+local_values:
+  remote_installer:
+    read_from_file: template/_remote_installer.py
+  MAIN_NODE_IP: 10.127.20.218
+  general_setup:
+    read_from_file: template/_remote_setup_general.py
+  nodes_conf:
+    read_from_file: ../../nodes.yml
+
+prepare:
+  # x86
+  - filemap:
+      content: ${remote_installer}
+      path: _remote_installer.py
+      mode: 755
+
+  # lib x86
+  - url: "https://repo.almalinux.org/almalinux/8/BaseOS/x86_64/os/Packages/conntrack-tools-1.4.4-11.el8.x86_64.rpm"
+  - url: "https://repo.almalinux.org/almalinux/8/AppStream/x86_64/os/Packages/socat-1.7.4.1-1.el8.x86_64.rpm"
+  - url: "https://repo.almalinux.org/almalinux/8/BaseOS/x86_64/os/Packages/libnetfilter_cthelper-1.0.0-15.el8.x86_64.rpm"
+  - url: "https://repo.almalinux.org/almalinux/8/BaseOS/x86_64/os/Packages/libnetfilter_cttimeout-1.0.0-11.el8.x86_64.rpm"
+  - url: "https://repo.almalinux.org/almalinux/8/BaseOS/x86_64/os/Packages/libnetfilter_queue-1.0.4-3.el8.x86_64.rpm"
+
+  # lib arm
+  - url: "https://repo.almalinux.org/almalinux/8/BaseOS/aarch64/os/Packages/conntrack-tools-1.4.4-11.el8.aarch64.rpm"
+  - url: "https://repo.almalinux.org/almalinux/8/AppStream/aarch64/os/Packages/socat-1.7.4.1-1.el8.aarch64.rpm"
+  - url: "https://repo.almalinux.org/almalinux/8/BaseOS/aarch64/os/Packages/libnetfilter_cthelper-1.0.0-15.el8.aarch64.rpm"
+  - url: "https://repo.almalinux.org/almalinux/8/BaseOS/aarch64/os/Packages/libnetfilter_cttimeout-1.0.0-11.el8.aarch64.rpm"
+  - url: "https://repo.almalinux.org/almalinux/8/BaseOS/aarch64/os/Packages/libnetfilter_queue-1.0.4-3.el8.aarch64.rpm"
+
+  # k8s arm
+  - url: "https://github.com/ActivePeter/bin_repo_0/releases/download/k8s_3_brother_1.27/k8s_127_arm.zip"
+    as: k8s_127_aarch64.zip
+
+  # k8s x86
+  - url: "https://github.com/ActivePeter/bin_repo_0/releases/download/k8s_3_brother_1.27/k8s_127_x86.zip"
+    as: k8s_127_x86_64.zip
+
+  - filemap:
+      content: ${general_setup}
+      path: _remote_setup_general.py
+      mode: 755
+
+  - filemap:
+      content: ${nodes_conf}
+      path: nodes.yml
+      mode: 700
+
+secret_files:
+  - nodes.yml
+
+bin:
+  k8s_3_brother:
+    no_default_installer:

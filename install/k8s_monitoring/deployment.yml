@@ -1,0 +1,37 @@
+deploytype: k8s
+
+local_values:
+  # DEFAULT_DEPLOY_DIR: /juice_seaweed
+
+secret:
+  # - seaweed_s3id
+  # - seaweed_s3pw
+
+prepare:
+  - image: prom/alertmanager:v0.26.0
+  - image: quay.io/prometheus-operator/prometheus-config-reloader:v0.67.1
+  - image: prom/prometheus:v2.46.0
+  - image: grafana/grafana:9.5.3
+  - image: bats/bats:v1.4.1
+  - image: curlimages/curl:7.85.0
+  - image: library/busybox:1.31.1
+  - image: quay.io/kiwigrid/k8s-sidecar:1.27.4
+  - image: grafana/grafana-image-renderer:lastet
+  - image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.9.2
+  - image: quay.io/brancz/kube-rbac-proxy:v0.14.2
+  - image: quay.io/prometheus/node-exporter:v1.6.1
+  - image: quay.io/prometheus/pushgateway:latest
+
+helms:
+  grafana:
+    helm-dir: grafana
+    namespace: monitoring
+  prometheus:
+    helm-dir: prometheus
+    namespace: monitoring
+
+k8s:
+  monitoring-PVCs:
+    k8s-dir: monitoring-PVCs
+  dcgm-exporter:
+    k8s-dir: dcgm-exporter

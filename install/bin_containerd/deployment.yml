@@ -1,0 +1,22 @@
+deploytype: bin
+
+local_values:
+  remote_installer:
+    read_from_file: template/_remote_installer.py
+  MAIN_NODE_IP: 10.127.20.218
+
+prepare:
+  # x86
+  - filemap:
+      content: ${remote_installer}
+      path: _remote_installer.py
+      mode: 755
+  - url: https://github.com/containerd/containerd/releases/download/v1.7.0/cri-containerd-1.7.0-linux-amd64.tar.gz
+    as: cri-containerd-1.7.0-linux-amd64.tar.gz
+  # arm
+  - url: https://github.com/containerd/containerd/releases/download/v1.7.0/cri-containerd-1.7.0-linux-arm64.tar.gz
+    as: cri-containerd-1.7.0-linux-arm64.tar.gz
+
+bin:
+  containerd:
+    no_default_installer:

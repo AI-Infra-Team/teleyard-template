@@ -1,0 +1,15 @@
+deploytype: bin
+
+prepare:
+  # x86
+  - url: http://archive.ubuntu.com/ubuntu/pool/main/s/sysstat/sysstat_12.2.0-2_amd64.deb
+    as: sysstat_amd64.deb
+    # trans: "unzip -o rclone-v1.68.0-linux-amd64.zip && cp rclone-v1.68.0-linux-amd64/rclone rclone_amd64"
+  # arm
+  - url: http://ports.ubuntu.com/pool/main/s/sysstat/sysstat_12.2.0-2_arm64.deb
+    as: sysstat_arm64.deb
+
+bin:
+  sysstat:
+    apt:
+      - sysstat

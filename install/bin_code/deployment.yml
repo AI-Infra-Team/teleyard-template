@@ -1,0 +1,26 @@
+deploytype: bin
+
+local_values:
+  win_version: 1.91.1
+  linux_version: 1.85.2
+  install_code:
+    read_from_file: template/install_code.py
+  MAIN_NODE_IP: 10.127.20.218
+
+prepare:
+  - url: https://update.code.visualstudio.com/${win_version}/win32-x64-archive/stable
+    as: code_win.zip
+
+  - url: https://update.code.visualstudio.com/${linux_version}/linux-deb-x64/stable
+    as: code_amd64.deb
+
+  - url: https://update.code.visualstudio.com/${linux_version}/linux-deb-arm64/stable
+    as: code_arm64.deb
+
+  - filemap:
+      content: ${install_code}
+      path: install_code.py
+      mode: 755
+bin:
+  code:
+    no_default_installer:

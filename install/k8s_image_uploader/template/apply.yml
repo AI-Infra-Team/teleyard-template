@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: image-uploader-script
+data:
+  image_uploader.py: |
+    ${image_uploader_script}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image-uploader
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: image-uploader
+  template:
+    metadata:
+      labels:
+        app: image-uploader
+    spec:
+      # tolerations:
+      #   - key: "" # 匹配所有 key
+      #     operator: "Exists" # 指定只要 `key` 存在即可
+      #     effect: "NoSchedule" # 耐受 `NoSchedule` 效果的 taints
+      #     value: ""
+      #   - key: "" # 同上，但针对 `PreferNoSchedule` 效果
+      #     operator: "Exists"
+      #     effect: "PreferNoSchedule"
+      #     value: ""
+      #   - key: "" # 同上，但针对 `NoExecute` 效果
+      #     operator: "Exists"
+      #     effect: "NoExecute"
+      #     value: ""
+      containers:
+        - name: image-uploader
+          image: harbor.telecom-ai.com.cn/teleinfra/python:3.12.5
+          # resources:
+          #   requests:
+          #     memory: "0Ki"
+          #     cpu: "0m"
+          command: ["/bin/sh", "-c"]
+          args:
+            # export LD_LIBRARY_PATH=/host_lib64:/host_lib:$LD_LIBRARY_PATH;
+            - |
+              python3 -c "LIB='PyYAML-6.0.2-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl'; import os,urllib.request; urllib.request.urlretrieve(f'http://${MAIN_NODE_IP}:8003/pip_base/{LIB}', f'{LIB}'); os.system(f'pip3 install {LIB}') ";
+              python3 -c "LIB='PyYAML-6.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl'; import os,urllib.request; urllib.request.urlretrieve(f'http://${MAIN_NODE_IP}:8003/pip_base/{LIB}', f'{LIB}'); os.system(f'pip3 install {LIB}') ";
+              python3 /app/image_uploader.py
+          volumeMounts:
+            - name: image-dir
+              mountPath: /app/image_dir
+            - name: script-volume
+              mountPath: /app
+            # - name: ssh-bin
+            #   mountPath: /usr/bin/ssh
+            - name: nodes-conf
+              mountPath: /app/nodes_conf
+            # - name: host-lib64
+            #   mountPath: /host_lib64
+            # - name: host-lib
+            #   mountPath: /host_lib
+      volumes:
+        - name: image-dir
+          hostPath:
+            path: ${image_dir}
+        - name: script-volume
+          configMap:
+            name: image-uploader-script
+            items:
+              - key: image_uploader.py
+                path: image_uploader.py
+        # - name: ssh-bin
+        #   hostPath:
+        #     path: /usr/bin/ssh
+        - name: nodes-conf
+          secret:
+            secretName: tele-deploy-secret
+            items:
+              - key: nodes_conf
+                path: nodes.yml
+        # - name: host-lib-crypto
+        #   hostPath:
+        #     path: /usr/lib64/libcrypto.so
+        # - name: host-lib-crypto2
+        #   hostPath:
+        #     path: /usr/lib64/libcrypto.so.1.1

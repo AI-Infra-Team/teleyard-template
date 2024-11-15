@@ -1,0 +1,36 @@
+deploytype: bin
+
+local_values:
+  set_pip_source:
+    read_from_file: ../../update_config/set_pip_source.py
+
+  set_rpm_source:
+    read_from_file: ../../update_config/set_rpm_source.py
+
+  add_tele_host:
+    read_from_file: ../../update_config/add_tele_host.py
+
+  set_apt_source:
+    read_from_file: ../../update_config/set_apt_source.py
+
+prepare:
+  - filemap:
+      content: ${set_pip_source}
+      path: set_pip_source.py
+      mode: 755
+  - filemap:
+      content: ${set_rpm_source}
+      path: set_rpm_source.py
+      mode: 755
+  - filemap:
+      content: ${add_tele_host}
+      path: add_tele_host.py
+      mode: 755
+  - filemap:
+      content: ${set_apt_source}
+      path: set_apt_source.py
+      mode: 755
+
+bin:
+  easy_config:
+    no_default_installer:
