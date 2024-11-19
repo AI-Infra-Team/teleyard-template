@@ -1,4 +1,5 @@
 # nodes: nodes_jd.yml
+comment: 非常经典共享存储暴露方式
 
 local_values:
   share_root: /tele_data_share
