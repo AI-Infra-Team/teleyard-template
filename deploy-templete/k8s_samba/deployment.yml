@@ -1,25 +1,27 @@
-deploytype: k8s
-
-nodes: nodes_jd.yml
+# nodes: nodes_jd.yml
 
 local_values:
   share_root: /tele_data_share
   prepare_entry:
     read_from_file: template/prepare_entry.py
-    map: "__import__('base64').b64encode(content.encode()).decode()"
+    replace:
+      match: "\n"
+      with: "\n    "
+
   jfs_samba_yml:
     read_from_file: template/jfs_samba.yml
 
 secret:
+  []
   # - seaweed_s3id
 
 prepare:
   - filemap:
       content: ${jfs_samba_yml}
-      path: apply.yml
+      path: jfs-samba/apply.yml
       mode: 755
   - image: dockurr/samba:4.20.2
 
 k8s:
   jfs-samba:
-    k8s-dir: prepare
+    k8s-dir: jfs-samba

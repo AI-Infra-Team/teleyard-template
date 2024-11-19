@@ -1,15 +1,18 @@
-deploytype: bin
-
 prepare:
   # x86
   - url: https://dev.yorhel.nl/download/ncdu-2.5-linux-x86_64.tar.gz
     as: ncdu-2.5-linux-x86_64.tar.gz
-    trans: "tar -zxvf ncdu-2.5-linux-x86_64.tar.gz && mv ncdu ncdu_amd64"
+    trans:
+      - extract
+      - copy:
+          - ncdu: ncdu_amd64
   # arm
   - url: https://dev.yorhel.nl/download/ncdu-2.5-linux-aarch64.tar.gz
     as: ncdu-2.5-linux-aarch64.tar.gz
-    trans: "tar -zxvf ncdu-2.5-linux-aarch64.tar.gz && mv ncdu ncdu_arm64"
+    trans:
+      - extract
+      - copy:
+          - ncdu: ncdu_arm64
 
 bin:
-  ncdu: 
-      
+  ncdu:

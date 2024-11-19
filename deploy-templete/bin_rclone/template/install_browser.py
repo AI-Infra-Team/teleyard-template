@@ -2,6 +2,10 @@ import os, sys, subprocess
 import urllib.request
 import tempfile
 import zipfile
+
+# ${MAIN_NODE_IP} is embedded local_value
+MAIN_NODE_IP="${MAIN_NODE_IP}"
+
 def cmd_color(string,color):
     color_dict={"red":31,"green":32,"yellow":33,"blue":34,"magenta":35,"cyan":36,"white":37}
     return f"\033[{color_dict[color]}m{string}\033[0m"
@@ -54,7 +58,6 @@ def create_shortcut(target_path, shortcut_path, description="", icon_path=""):
     os.remove(temp_file.name)
     # subprocess.run(["powershell", "-Command", powershell_command], check=True)
 
-MAIN_NODE_IP="${MAIN_NODE_IP}"
 TMP_DIR=tempfile.gettempdir()    
 if os.name=="nt":
     # CODE_URL=f"http://{MAIN_NODE_IP}:8003/bin_rclone/rclone-browser.exe"

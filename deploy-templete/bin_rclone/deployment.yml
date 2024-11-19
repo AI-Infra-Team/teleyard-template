@@ -1,9 +1,8 @@
-deploytype: bin
+comment: 非常方便传输工具
 
 local_values:
   install_browser:
     read_from_file: template/install_browser.py
-  MAIN_NODE_IP: 10.127.20.218
 
 prepare:
   # x86
@@ -11,30 +10,35 @@ prepare:
     trans:
       - extract
       - copy:
-          - rclone-v1.68.0-linux-amd64/rclone: rclone_amd64
+          - rclone-v1.68.0-linux-amd64/rclone: teledeploy/rclone_amd64 # /teledeploy 为upload到的文件服务器，main_
   # arm
   - url: https://github.com/rclone/rclone/releases/download/v1.68.0/rclone-v1.68.0-linux-arm64.zip
     trans:
       - extract
       - copy:
-          - rclone-v1.68.0-linux-arm64/rclone: rclone_arm64
+          - rclone-v1.68.0-linux-arm64/rclone: teledeploy/rclone_arm64
   - url: https://github.com/rclone/rclone/releases/download/v1.68.0/rclone-v1.68.0-windows-amd64.zip
     trans:
       - extract
       - copy:
-          - rclone-v1.68.0-windows-amd64/rclone.exe: rclone_windows.exe
+          - rclone-v1.68.0-windows-amd64/rclone.exe: teledeploy/rclone.exe
 
     # trans: "unzip -o rclone-v1.68.0-windows-amd64.zip && mv rclone-v1.68.0-windows-amd64/rclone.exe ./ && rm -rf rclone-v1.68.0-windows-amd64"
 
   - url: https://github.com/kapitainsky/RcloneBrowser/releases/download/1.8.0/rclone-browser-1.8.0-a0b66c6-linux-x86_64.AppImage
-    as: rclone-browser.AppImage
+    as: teledeploy/rclone-browser.AppImage
 
   - url: https://github.com/kapitainsky/RcloneBrowser/releases/download/1.8.0/rclone-browser-1.8.0-a0b66c6-windows-64-bit.exe
-    as: rclone-browser.exe
+    as: teledeploy/rclone-browser.exe
 
   - filemap:
       content: ${install_browser}
-      path: install_browser.py
+      path: teledeploy/install_rclone_browser.py # 下面设置了no_default_installer，手动绑定对应的安装脚本
       mode: 755
+
 bin:
-  rclone:
+  rclone: # 没有标注 'no_default_installer', 默认按照二进制安装，会从文件服务器下载 {bin名称}_{架构}的文件，windows要求带有exe后缀
+  rclone_browser:
+    no_default_installer: true
+    win_installer: rclone-browser.exe # 非标准bin安装类型，目前讨论两种，一种win安装包，启动后进行安装
+    appimage: rclone-browser.AppImage # 另一种为跨平台appimage直接执行的包

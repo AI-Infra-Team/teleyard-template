@@ -1,4 +1,13 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jfs-samba-configs
+  namespace: tele-deployment
+data:
+  entry.py: |
+    ${prepare_entry}
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: jfs-samba-service
@@ -36,6 +45,12 @@ spec:
       initContainers:
         - name: format-configs
           image: harbor.telecom-ai.com.cn/teleinfra/python:3.12.5
+          env:
+            - name: ENTRY
+              valueFrom:
+                configMapKeyRef:
+                  name: jfs-samba-configs
+                  key: entry.py
           command: ["bash", "-c"]
           args:
             - |
@@ -45,9 +60,8 @@ spec:
               echo "installing pyyaml"
               pip3 install pyyaml
 
-              echo "transforming juice.yml to env exporter"
-              echo "${prepare_entry}" > _prepare_entry.py
-              python3 -c "import base64; open('prepare_entry.py', 'w').write(base64.b64decode(open('_prepare_entry.py', 'r').read().strip()).decode('utf-8'))"
+              echo "loading script"
+              echo "$ENTRY" > prepare_entry.py
 
               python3 prepare_entry.py
           volumeMounts:

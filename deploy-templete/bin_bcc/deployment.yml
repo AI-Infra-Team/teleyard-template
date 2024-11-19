@@ -1,7 +1,0 @@
-deploytype: bin
-
-prepare:
-  - url:
-bin:
-  bcc:
-    no_default_installer:
