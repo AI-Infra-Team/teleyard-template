@@ -34,9 +34,9 @@ def add_hosts(hosts: list):
                 print(f"host no update needed: {host}")
                 updated_hosts[host]=i
                 break
-            host_name=host.split(" ")[0]
+            host_name=host.split(" ")[1]
             # if start with host_ip, updata the line with new config
-            if lines[i].endswith(host_name):
+            if lines[i].replace("\n","").endswith(host_name):
                 print(f"host update: {lines[i]} -> {host}")
                 lines[i]=host
                 updated_hosts[host]=i
@@ -54,6 +54,6 @@ add_hosts([
     "172.16.135.1 download.chinatelecom.ai",
     "10.30.254.254 pypi.chinatelecom.ai",
     "10.30.254.254 ubuntu.chinatelecom.ai",
-    "10.143.161.9 harbor.telecomai.com.cn",
+    "10.37.86.30 harbor.telecomai.com.cn",
     "10.127.23.106 harbor.telecom-ai.com.cn"
 ])

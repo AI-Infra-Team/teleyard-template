@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: infra-grafana
+  namespace: tele-deployment
+  labels:
+    app: infra-grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: infra-grafana
+  template:
+    metadata:
+      labels:
+        app: infra-grafana
+    spec:
+      containers:
+        - name: infra-grafana
+          image: harbor.telecom-ai.com.cn/teleinfra/grafana:9.5.3
+          ports:
+            - containerPort: 3000
+          securityContext:
+            privileged: true
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: infra-grafana-credentials # 在kubepi中配置对应key
+                  key: admin-user
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: infra-grafana-credentials # 在kubepi中配置对应key
+                  key: admin-password
+          volumeMounts:
+            - name: infra-grafana-storage
+              mountPath: /var/lib/grafana
+      volumes:
+        - name: infra-grafana-storage
+          hostPath:
+            path: ${infra_share_dir_root}/infra_deploy/grafana # 在deployment.yml 中定义
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: infra-grafana
+  namespace: tele-deployment
+spec:
+  selector:
+    app: infra-grafana
+  ports:
+    - protocol: TCP
+      port: 3003
+      targetPort: 3000
+      nodePort: 31303
+  type: NodePort

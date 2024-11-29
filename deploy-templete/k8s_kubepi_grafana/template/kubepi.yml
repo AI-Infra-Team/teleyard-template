@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: infra-kubepi
+  namespace: tele-deployment
+  labels:
+    app: infra-kubepi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: infra-kubepi
+  template:
+    metadata:
+      labels:
+        app: infra-kubepi
+    spec:
+      containers:
+        - name: infra-kubepi
+          image: harbor.telecom-ai.com.cn/teleinfra/kubepi:v1.8.0
+          ports:
+            - containerPort: 80
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: infra-kubepi-storage
+              mountPath: /var/lib/kubepi
+      volumes:
+        - name: infra-kubepi-storage
+          hostPath:
+            path: ${infra_share_dir_root}/infra_deploy/grafana # 在deployment.yml 中定义
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: infra-kubepi
+  namespace: tele-deployment
+spec:
+  selector:
+    app: infra-kubepi
+  ports:
+    - protocol: TCP
+      port: 3025
+      targetPort: 80
+      nodePort: 31325
+  type: NodePort

@@ -1,0 +1,31 @@
+# nodes: nodes_jd.yml
+comment: 监控管理面板~
+
+local_values:
+  # h100
+  infra_share_dir_root: /nvfile-heatstorage/tele_data_share
+  # jd
+  # infra_share_dir_root: /damoxing1/teleinfra
+  grafana_yml:
+    read_from_file: template/grafana.yml
+  kubepi_yml:
+    read_from_file: template/kubepi.yml
+
+prepare:
+  # grafana
+  - image: grafana/grafana:9.5.3
+  - image: docker.io/1panel/kubepi:v1.8.0
+  - filemap:
+      content: ${grafana_yml}
+      path: grafana/apply.yml
+      mode: 755
+  - filemap:
+      content: ${kubepi_yml}
+      path: kubepi/apply.yml
+      mode: 755
+
+k8s:
+  grafana:
+    k8s-dir: grafana
+  kubepi:
+    k8s-dir: kubepi
