@@ -1,9 +1,5 @@
 comment: 非常方便传输工具
 
-local_values:
-  install_browser:
-    read_from_file: template/install_browser.py
-
 prepare:
   # x86
   - url: https://github.com/rclone/rclone/releases/download/v1.68.0/rclone-v1.68.0-linux-amd64.zip
@@ -30,11 +26,6 @@ prepare:
 
   - url: https://github.com/kapitainsky/RcloneBrowser/releases/download/1.8.0/rclone-browser-1.8.0-a0b66c6-windows-64-bit.exe
     as: teledeploy/rclone-browser.exe
-
-  - filemap:
-      content: ${install_browser}
-      path: teledeploy/install_rclone_browser.py # 下面设置了no_default_installer，手动绑定对应的安装脚本
-      mode: 755
 
 bin:
   rclone: # 没有标注 'no_default_installer', 默认按照二进制安装，会从文件服务器下载 {bin名称}_{架构}的文件，windows要求带有exe后缀
