@@ -28,7 +28,9 @@ exec(script.decode())
 print("Setting up pip source")
 
 # Windows uses pip.ini, typically located in the user’s AppData directory
-pip_config_path = os.path.join(os.getenv('APPDATA'), 'pip', 'pip.ini')
+pip_config_path="/etc/pip.conf"
+if os.name == 'nt':
+    pip_config_path = os.path.join(os.getenv('APPDATA'), 'pip', 'pip.ini')
 
 # Source configuration for pip
 source = """

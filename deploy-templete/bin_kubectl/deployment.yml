@@ -1,0 +1,12 @@
+comment: k8s集群的操作cli
+
+prepare:
+  # x86
+  - url: https://github.com/ActivePeter/bin_repo_0/releases/download/kubectl1.27/kubectl_amd
+    as: teledeploy/kubectl_amd64
+  # arm
+  - url: https://github.com/ActivePeter/bin_repo_0/releases/download/kubectl1.27/kubectl_arm
+    as: teledeploy/kubectl_arm64
+
+bin:
+  kubectl:

@@ -1,0 +1,12 @@
+comment: gitops自动化运维
+
+prepare:
+  - url: https://github.com/argoproj/argo-cd/releases/download/v2.13.1/argocd-linux-amd64
+    as: teledeploy/argocd_amd64
+  - url: https://github.com/argoproj/argo-cd/releases/download/v2.13.1/argocd-linux-arm64
+    as: teledeploy/argocd_arm64
+  - url: https://github.com/argoproj/argo-cd/releases/download/v2.13.1/argocd-windows-amd64.exe
+    as: teledeploy/argocd.exe
+
+bin:
+  argocd: # 没有标注 'no_default_installer', 默认按照二进制安装，会从文件服务器下载 {bin名称}_{架构}的文件，windows要求带有exe后缀
