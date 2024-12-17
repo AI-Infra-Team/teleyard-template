@@ -1,0 +1,21 @@
+comment: 轻量版k8s
+
+prepare:
+  # x86
+  - url: https://github.com/k3s-io/k3s/releases/download/v1.30.8-rc1%2Bk3s1/k3s
+    as: teledeploy/k3s_amd64
+  # arm
+  - url: https://github.com/k3s-io/k3s/releases/download/v1.30.8-rc1%2Bk3s1/k3s-arm64
+    as: teledeploy/k3s_arm64
+
+  - url: https://github.com/k3s-io/k3s/releases/download/v1.30.8-rc1%2Bk3s1/k3s-airgap-images-amd64.tar.gz
+    as: teledeploy/k3s-airgap-images-amd64.tar.gz
+  
+  - url: https://github.com/k3s-io/k3s/releases/download/v1.30.8-rc1%2Bk3s1/k3s-airgap-images-arm64.tar.gz
+    as: teledeploy/k3s-airgap-images-arm64.tar.gz
+
+  - url: https://get.k3s.io
+    as: teledeploy/install.sh
+
+bin:
+  k3s:
