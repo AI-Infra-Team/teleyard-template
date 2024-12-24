@@ -1,13 +1,13 @@
 import os
 CUR_FDIR = os.path.dirname(os.path.abspath(__file__))
 
+if os.name != 'nt' and os.getuid() != 0:
+    # print("Please run as root to add hosts")
+    os.system(f"sudo python3 {__file__}")
+    exit(0)
+
 print("setting up hosts")
 def add_hosts(hosts: list):
-    # make sure root now
-    if os.name != 'nt' and os.getuid() != 0:
-        print("Please run as root to add hosts")
-        exit(1)
-
     # verify hosts format
     for host in hosts:
         if not host.find(" ") > 0:

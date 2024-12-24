@@ -18,11 +18,9 @@ import os
 import urllib.request
 
 # Download the script from the URL
-script_url = "http://10.127.20.218:8003/bin_easy_config/add_tele_host.py"
-script = urllib.request.urlopen(script_url).read()
-
-# Print the script's content
-exec(script.decode())
+print("Setting up host")
+os.system("telego cmd --cmd update_config/add_tele_host.py/run")
+    
 
 # Setting up pip source
 print("Setting up pip source")
